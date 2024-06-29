@@ -1,0 +1,10 @@
+<div class="minicart__product">
+    <button class="minicart__product_remove" (click)="removeFromCart()">X</button>
+    <img [ngSrc]="product().image" height="42" width="42" alt="product image" />
+    <div class="minicart__product__quantity">
+        <button class="button" (click)="decrement()">-</button>
+        <p>{{ product().quantity }}</p>
+        <button class="button" (click)="increment()">+</button>
+    </div>
+    <p>Total price: {{ (product().price * product().quantity).toFixed(2) }} </p>
+</div>

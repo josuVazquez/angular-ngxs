@@ -1,0 +1,35 @@
+.product__card {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    p {
+        max-width: 600px;
+    }
+}
+
+.product__card__image {
+    position: relative;
+    width: 210px;
+    height: 300px;
+}
+
+.product__quatity {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    input {
+        width: 50px;
+        height: 30px;
+        text-align: center;
+    }
+    button {
+        margin: 0 10px;
+    }
+}

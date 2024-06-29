@@ -21,10 +21,12 @@
     "@angular/platform-server": "^18.0.0",
     "@angular/router": "^18.0.0",
     "@angular/ssr": "^18.0.5",
+    "@ngxs/devtools-plugin": "^18.0.0-dev.master-c177048",
+    "@ngxs/logger-plugin": "^18.0.0-dev.master-c177048",
+    "@ngxs/store": "^18.0.0",
     "express": "^4.18.2",
     "rxjs": "~7.8.0",
-    "tslib": "^2.3.0",
-    "zone.js": "~0.14.3"
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.0.5",

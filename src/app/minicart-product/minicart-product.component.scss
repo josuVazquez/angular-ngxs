@@ -1,0 +1,19 @@
+.minicart__product__quantity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.minicart__product {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.minicart__product_remove {
+    margin-left: auto;
+}

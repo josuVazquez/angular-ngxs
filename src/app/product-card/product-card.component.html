@@ -1,0 +1,16 @@
+@if(product(); as product) {
+    <div class="product__card">
+        <div class="product__card__image">
+            <img [ngSrc]="product.image" fill />
+        </div>
+        <p>
+            {{ product.description }}
+        </p>
+        <div class="product__quatity">
+            <button (click)="decrement()">-</button>
+            <input min="0" [max]="maxQuantity" type="number" [(ngModel)]="quantity" />
+            <button (click)="increment()">+</button>
+        </div>
+        <button (click)="addToCart()">Add to cart</button>
+    </div>
+}
