@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CartItem } from '../cart.model';
 
 @Injectable({
   providedIn: 'root'
@@ -8,28 +9,24 @@ export class CartService {
   apiUrl = 'https://fakestoreapi.com/carts/7';
   constructor(private httpClient: HttpClient) { }
 
-  addToCart(products: any) {
+  updateCart(items: CartItem[]) {
     return this.httpClient.put(`${this.apiUrl}`, {
       userId: 3,
       date: new Date(),
-      products
+      products: items
     });
   }
 
-  removeProduct(products: any) {
-    return this.httpClient.put(`${this.apiUrl}`, {
-      userId: 3,
-      date: new Date(),
-      products
-    });
+  addToCart(items: CartItem[]) {
+    return this.updateCart(items);
   }
 
-  updateProduct(products: any) {
-    return this.httpClient.put(`${this.apiUrl}`, {
-      userId: 3,
-      date: new Date(),
-      products
-    });
+  removeProduct(items: CartItem[]) {
+    return this.updateCart(items);
+  }
+
+  updateProduct(items: CartItem[]) {
+    return this.updateCart(items);
   }
 
 }

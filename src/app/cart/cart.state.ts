@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { CartActions } from '../cart/cart.actions';
 import {
-  Cart,
   CartItem,
   MAX_PRODUCTS,
   MAX_TOTAL_PRICE,
@@ -42,11 +41,11 @@ export class CartState {
     { getState, patchState }: StateContext<CartStateModel>,
     { cartItem }: CartActions.AddToCart
   ) {
-    const state = getState();
-    const productState = state.items.findIndex(
+    const { items } = getState();
+    const productState = items.findIndex(
         (item) => item.id === cartItem.id
     );
-    const newCart = [...state.items];
+    const newCart = [...items];
     if (productState !== -1) {
         newCart[productState] = {
             ...newCart[productState],
@@ -60,10 +59,7 @@ export class CartState {
       tap((result) => {
         patchState({
           items: newCart,
-          totalPrice: newCart.reduce(
-            (acc, item) => acc + item.price * item.quantity,
-            0
-          ),
+          totalPrice: this.calculateTotalPrice(newCart),
         });
       })
     );
@@ -74,22 +70,19 @@ export class CartState {
     { getState, patchState }: StateContext<CartStateModel>,
     { cartItem }: CartActions.UpdateCart
   ) {
-    const state = getState();
-    const updatedItems = state.items.map((item) => {
+    const { items } = getState();
+    const updatedItems = items.map((item) => {
       if (item.id === cartItem.id) {
         return cartItem;
       }
       return item;
     });
     this.cartBusinessLogic(updatedItems);
-    return this.cartService.updateProduct(cartItem).pipe(
+    return this.cartService.updateProduct(updatedItems).pipe(
       tap((result) => {
         patchState({
           items: updatedItems,
-          totalPrice: updatedItems.reduce(
-            (acc, item) => acc + item.price * item.quantity,
-            0
-          ),
+          totalPrice: this.calculateTotalPrice(updatedItems),
         });
       })
     );
@@ -100,16 +93,13 @@ export class CartState {
     { getState, patchState }: StateContext<CartStateModel>,
     { cartItem }: CartActions.RemoveFromCart
   ) {
-    const state = getState();
-    const items = [...state.items.filter((item) => item.id !== cartItem.id)];
-    return this.cartService.removeProduct(items).pipe(
+    const { items } = getState();
+    const updatedItems = items.filter(item => item.id !== cartItem.id);
+        return this.cartService.removeProduct(updatedItems).pipe(
       tap((result) => {
         patchState({
-          items,
-          totalPrice: items.reduce(
-            (acc, item) => acc + item.price * item.quantity,
-            0
-          ),
+          items: updatedItems,
+          totalPrice: this.calculateTotalPrice(updatedItems),
         });
       })
     );
@@ -135,5 +125,9 @@ export class CartState {
         `The total quantity of a product in the cart cannot exceed ${MAX_TOTAL_QUANTITY}`
       );
     }
+  }
+
+  private calculateTotalPrice(items: CartItem[]) {
+    return items.reduce((acc, item) => acc + item.price * item.quantity, 0);
   }
 }
